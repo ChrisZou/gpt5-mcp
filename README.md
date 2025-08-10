@@ -1,78 +1,55 @@
-# GPT-5 MCP Server
+# GPT-5 MCP 服务器
 
-A Model Context Protocol (MCP) server that provides GPT-5 Q&A functionality.
+一个提供 GPT-5 问答功能的模型上下文协议（MCP）服务器。
 
-## Features
+## 使用方法
 
-- **gpt5_chat**: Chat with GPT-5 for Q&A and general assistance
-  - Configurable model selection
-  - Adjustable response parameters (max_tokens, temperature)
-  - Error handling and validation
-
-## Setup
-
-1. Clone this repository
-2. Install dependencies:
+1. clone此仓库
+2. 安装依赖：
    ```bash
-   npm install
-   ```
-3. Copy `.env.example` to `.env` and configure your OpenAI API key:
-   ```bash
-   cp .env.example .env
-   ```
-4. Edit `.env` and add your OpenAI API key:
-   ```
-   OPENAI_API_KEY=your_openai_api_key_here
+   npm install && npm run build
    ```
 
-## Usage
-
-### Development
-```bash
-npm run dev
-```
-
-### Production
-```bash
-npm run build
-npm start
-```
-
-### Claude Desktop Integration
-
-Add this server to your Claude Desktop configuration:
-
-```json
-{
-  "mcpServers": {
-    "gpt5": {
-      "command": "node",
-      "args": ["path/to/gpt5-mcp/dist/index.js"],
-      "env": {
-        "OPENAI_API_KEY": "your_openai_api_key_here"
+### Claude Code 集成
+运行
+  ```
+  claude mcp add --json gpt5 '
+  {
+    "mcpServers": {
+      "gpt5": {
+        "command": "node",
+        "args": ["/path/to/your/gpt5-mcp/dist/index.js"],
+        "env": {
+          "OPENAI_API_KEY": "这里换成你的API KEY"
+        }
       }
     }
-  }
-}
-```
+   }'
+   ```
+记得把其中的 “/path/to/your/gpt5-mcp”换成你把这个项目clone到的所在目录。然后把OPENAI_API_KEY换成你自己的
 
-## Tool Reference
+## 使用举例
+在claude code里面可以这么说：
+  - "问一下 GPT5 今天的天气怎么样？"
+  - "使用 gpt5 来review我的代码"
+
+## 可用tools
 
 ### gpt5_chat
 
-Chat with GPT-5 for Q&A and assistance.
+与 GPT-5 进行问答和协助。
 
-**Parameters:**
-- `message` (required): The message or question to send to GPT-5
-- `model` (optional): The GPT model to use (default: "gpt-4o")
-- `max_tokens` (optional): Maximum tokens in response (default: 1000)
-- `temperature` (optional): Sampling temperature 0-2 (default: 0.7)
+**参数：**
+- `message`（必需）：发送给 GPT-5 的消息或问题
+- `model`（可选）：要使用的 GPT 模型（默认："gpt-5"）
+- `max_tokens`（可选）：响应中的最大 token 数（默认：4096）
+- `temperature`（可选）：采样温度 0-2（默认：0.7）
 
-**Example:**
+**示例：**
 ```json
 {
-  "message": "What is the capital of France?",
-  "model": "gpt-4o",
+  "message": "法国的首都是什么？",
+  "model": "gpt-5",
   "max_tokens": 500,
   "temperature": 0.5
 }
